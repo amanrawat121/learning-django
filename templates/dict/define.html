@@ -3,41 +3,49 @@
 {% block body %}
 <main>
     {% for key, value in data.items %}
-    	<h1>{{key|capfirst}}</h1>
-        <div class="notice">
-            {% if value|is_str %}
-                {{value}}
-            {% endif %}
-
-
-
-            {% if value|is_dict %}
-                {% for a,b in value.items %}
-                {{a}}:&nbsp;{{b}}</br>
-                {% endfor %}
-            {% endif %}
-
-
-
-            {% if value|is_list %}
-                {% for a in value %}
-                    {% if a|is_dict %}
-                        {% for b,c in a.items %}
-                            {{b}}:&nbsp;
-                            {% if c|is_list %}
-                                {% for d in c %}{% if d|is_dict %}{% for g,h in d.items %}{{g}}:&nbsp;{% if h|is_list %}{% for i in h %}{{i}}</br>{% endfor %}{% else %} {{h}}{% endif %}</br>{% endfor %}{% else %}{{d}}{% endif %}</br>{% endfor %}
-                            {% elif c|is_dict %}
-                                {% for e,f in c.items %}{{e}}:&nbsp;{{f}}</br>{% endfor %}
-                            {% else %}
-                                {{c}}</br>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        {{a}}
+        <article>
+            <header>
+                <h2>{{key|capfirst}}</h2>
+            </header>
+            <section>
+                <div>
+                    {% if value|is_str %}
+                        <strong>{{value}}</strong>
                     {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
+                </div>
+                <div>
+
+
+                    {% if value|is_dict %}
+                    {% for a,b in value.items %}
+                    <strong>{{a|upper}}</strong>:{{b|linebreaks}}<hr>
+                    {% endfor %}
+                {% endif %}
+    
+    
+    
+                {% if value|is_list %}
+                    {% for a in value %}
+                        {% if a|is_dict %}
+                            {% for b,c in a.items %}
+                                <strong>{{b|upper}}</strong>:
+                                {% if c|is_list %}
+                                    {% for d in c %}{% if d|is_dict %}{% for g,h in d.items %}</br><strong>{{g|upper}}</strong>:{% if h|is_list %}{% for i in h %}{{i|linebreaks}}<hr>{% endfor %}{% else %}{{h|linebreaks}}</br><hr>{% endif %}{% endfor %}{% else %}{{d|linebreaks}}<hr>{% endif %}{% endfor %}
+                                {% elif c|is_dict %}
+                                    {% for e,f in c.items %}<strong>{{e|upper}}</strong>:{{f|linebreaks}}<hr>{% endfor %}
+                                {% else %}
+                                    {{c|linebreaks}}<hr>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {{a|linebreaks}}<hr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+    
+                </div>
+            </section>
+        </article>
     {% endfor %}
 </main>
 {% endblock body %}
