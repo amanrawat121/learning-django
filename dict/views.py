@@ -22,7 +22,7 @@ class DictionaryView(View):
         # except Exception as e:
         #     return HttpResponse("An error occurred: " + str(e), status=500)
 
-    async def get(self, word):
+    async def get(self, request, word):
         data = await self.fetch_data(word)
         return data
 

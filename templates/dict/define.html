@@ -1,0 +1,43 @@
+{% extends "dict/base.html" %}
+{% load filter %}
+{% block body %}
+<main>
+    {% for key, value in data.items %}
+    	<h1>{{key|capfirst}}</h1>
+        <div class="notice">
+            {% if value|is_str %}
+                {{value}}
+            {% endif %}
+
+
+
+            {% if value|is_dict %}
+                {% for a,b in value.items %}
+                {{a}}:&nbsp;{{b}}</br>
+                {% endfor %}
+            {% endif %}
+
+
+
+            {% if value|is_list %}
+                {% for a in value %}
+                    {% if a|is_dict %}
+                        {% for b,c in a.items %}
+                            {{b}}:&nbsp;
+                            {% if c|is_list %}
+                                {% for d in c %}{% if d|is_dict %}{% for g,h in d.items %}{{g}}:&nbsp;{% if h|is_list %}{% for i in h %}{{i}}</br>{% endfor %}{% else %} {{h}}{% endif %}</br>{% endfor %}{% else %}{{d}}{% endif %}</br>{% endfor %}
+                            {% elif c|is_dict %}
+                                {% for e,f in c.items %}{{e}}:&nbsp;{{f}}</br>{% endfor %}
+                            {% else %}
+                                {{c}}</br>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {{a}}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+</main>
+{% endblock body %}
